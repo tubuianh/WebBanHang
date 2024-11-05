@@ -220,17 +220,25 @@
         </div>
     </section>
     <!-- Hero Section End -->
-
+    <?php 
+        require_once('./db/conn.php');
+        $idsp = $_GET['id'];
+        $sql_str = "SELECT * FROM products WHERE id = $idsp";
+        $result =  mysqli_query($conn,$sql_str); 
+        $row = mysqli_fetch_assoc($result);
+        $anh_arr = explode(";" , $row['images']);                                                
+    ?>
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>Organi Shop</h2>
+                        <h2><?=$row['name']?></h2>
                         <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
-                            <span>Shop</span>
+                            <a href="./index.html">Trang chủ</a>
+                            <a href="./index.html">Sản phẩm</a>
+                            <span><?=$row['name']?></span>
                         </div>
                     </div>
                 </div>
@@ -239,256 +247,164 @@
     </section>
     <!-- Breadcrumb Section End -->
 
-    <!-- Product Section Begin -->
-    <section class="product spad">
+    <!-- Product Details Section Begin -->
+    <section class="product-details spad">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-5">
-                    <div class="sidebar">
-                        <div class="sidebar__item">
-                            <h4>Danh Mục Sản Phẩm</h4>
-                            <ul>
-                                <?php 
-                                    require('./db/conn.php');
-                                    $sql_str = "SELECT * FROM categories order by name";
-                                    $result =  mysqli_query($conn,$sql_str);
-                                    while ($row = mysqli_fetch_assoc($result)){            
-                                ?>
-                                    <li><a href="#"><?php echo $row['name']; ?></a></li>
-                                <?php } ?>  
-                            </ul>
+            
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__item">
+                            <img class="product__details__pic__item--large"
+                                src="<?="quantri/".$anh_arr[0]?>" alt="<?=$row['name']?>">
                         </div>
-                        <div class="sidebar__item">
-                            <h4>Price</h4>
-                            <div class="price-range-wrap">
-                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                    data-min="10" data-max="540">
-                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                </div>
-                                <div class="range-slider">
-                                    <div class="price-input">
-                                        <input type="text" id="minamount">
-                                        <input type="text" id="maxamount">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="sidebar__item sidebar__item__color--option">
-                            <h4>Colors</h4>
-                            <div class="sidebar__item__color sidebar__item__color--white">
-                                <label for="white">
-                                    White
-                                    <input type="radio" id="white">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--gray">
-                                <label for="gray">
-                                    Gray
-                                    <input type="radio" id="gray">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--red">
-                                <label for="red">
-                                    Red
-                                    <input type="radio" id="red">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--black">
-                                <label for="black">
-                                    Black
-                                    <input type="radio" id="black">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--blue">
-                                <label for="blue">
-                                    Blue
-                                    <input type="radio" id="blue">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--green">
-                                <label for="green">
-                                    Green
-                                    <input type="radio" id="green">
-                                </label>
-                            </div>
-                        </div>
-                        <div class="sidebar__item">
-                            <h4>Popular Size</h4>
-                            <div class="sidebar__item__size">
-                                <label for="large">
-                                    Large
-                                    <input type="radio" id="large">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="medium">
-                                    Medium
-                                    <input type="radio" id="medium">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="small">
-                                    Small
-                                    <input type="radio" id="small">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="tiny">
-                                    Tiny
-                                    <input type="radio" id="tiny">
-                                </label>
-                            </div>
-                        </div>
-                        <div class="sidebar__item">
-                            <div class="latest-product__text">
-                                <h4>Sản Phẩm Mới Nhất</h4>
-                                <div class="latest-product__slider owl-carousel">
-                                    <div class="latest-prdouct__slider__item">
-                                    <?php 
-                                        $sql_str = "SELECT * FROM products order by created_at desc limit 0,3";
-                                        //$sql_str = "SELECT * FROM products";
-                                        $result =  mysqli_query($conn,$sql_str);
-                                        while ($row = mysqli_fetch_assoc($result)){   
-                                            $anh_arr = explode(";" , $row['images']);           
-                                    ?>
-                                        <a href="sanpham.php?id=<?=$row['id']?>" class="latest-product__item">
-                                            <div class="latest-product__item__pic">
-                                                <img src="<?php echo "quantri/".$anh_arr[0]; ?>" alt="">
-                                            </div>
-                                            <div class="latest-product__item__text">
-                                                <h6><?php echo $row['name'];?></h6>
-                                                <span><?php echo $row['price'];?> VND</span>
-                                            </div>
-                                        </a>
-                                    <?php } ?>
-
-                                    </div>
-                                    <div class="latest-prdouct__slider__item">
-                                    <?php 
-                                        $sql_str = "SELECT * FROM products order by created_at desc limit 3,3";
-                                        //$sql_str = "SELECT * FROM products";
-                                        $result =  mysqli_query($conn,$sql_str);
-                                        while ($row = mysqli_fetch_assoc($result)){   
-                                            $anh_arr = explode(";" , $row['images']);           
-                                    ?>
-                                        <a href="sanpham.php?id=<?=$row['id']?>" class="latest-product__item">
-                                            <div class="latest-product__item__pic">
-                                                <img  src="<?php echo "quantri/".$anh_arr[0]; ?>" alt="">
-                                            </div>
-                                            <div class="latest-product__item__text">
-                                                <h6><?php echo $row['name'];?></h6>
-                                                <span><?php echo $row['price'];?> VND</span>
-                                            </div>
-                                        </a>
-                                    <?php } ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-9 col-md-7">
-                    <div class="product__discount">
-                        <div class="section-title product__discount__title">
-                            <h2>Sale Off</h2>
-                        </div>
-                        <div class="row">
-                            <div class="product__discount__slider owl-carousel">
+                        <div class="product__details__pic__slider owl-carousel">
                             <?php 
-                              $sql_str = "SELECT products.id as pid, products.name as pname, categories.name as cname, 
-                              round((price - disscounted_price)/price*100) as discount, images, disscounted_price, price FROM products, categories 
-                              WHERE products.category_id = categories.id  order by discount desc limit 0, 6";
-                              $result =  mysqli_query($conn,$sql_str);
-                              while ($row = mysqli_fetch_assoc($result)){   
-                                  $anh_arr = explode(";" , $row['images']);                     
+                                for($i=0;$i<count($anh_arr);$i++){
                             ?>
-                                <div class="col-lg-4">
-                                    <div class="product__discount__item">
-                                        <div class="product__discount__item__pic set-bg"
-                                            data-setbg="<?="quantri/".$anh_arr[0]?>">
-                                            <div class="product__discount__percent">-<?=$row['discount']?>%</div>
-                                            <ul class="product__item__pic__hover">
-                                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="product__discount__item__text">
-                                            <span><?=$row['cname']?></span>
-                                            <h5><a href="sanpham.php?id=<?=$row['pid']?>"><?=$row['pname']?></a></h5>
-                                            <div class="product__item__price"><?=$row['disscounted_price']?> <span><?=$row['price']?></span></div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <img data-imgbigurl="<?="quantri/".$anh_arr[$i]?>"
+                                src="<?="quantri/".$anh_arr[$i]?>" alt="">
 
                             <?php } ?>
 
-                            </div>
                         </div>
                     </div>
-                    <div class="filter__item">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-5">
-                                <div class="filter__sort">
-                                    <span>Sort By</span>
-                                    <select>
-                                        <option value="0">Default</option>
-                                        <option value="0">Default</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <?php 
-                                $sql_str = "SELECT * FROM products order by name";
-                                $result =  mysqli_query($conn,$sql_str);
-                           ?>
-                            <div class="col-lg-4 col-md-4">
-                                <div class="filter__found">
-                                    <h6><span>Có <?php echo mysqli_num_rows($result); ?> sản phẩm</span></h6>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-3">
-                                <div class="filter__option">
-                                    <span class="icon_grid-2x2"></span>
-                                    <span class="icon_ul"></span>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__text">
+                        <h3><?=$row['name']?></h3>
+                        <div class="product__details__rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-half-o"></i>
+                            <span>(18 reviews)</span>
+                        </div>
+                        <div class="product__details__price"><?=$row['price']?>  VND</div>
+                        <p><?=$row['summary']?></p>
+                        <div class="product__details__quantity">
+                            <div class="quantity">
+                                <div class="pro-qty">
+                                    <input type="text" value="1">
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <?php 
-                         while ($row = mysqli_fetch_assoc($result)){   
-                            $anh_arr = explode(";" , $row['images']); 
-                        ?>
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="<?="quantri/".$anh_arr[0]?>">
-                                    <ul class="product__item__pic__hover">
-                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
+                        <a href="#" class="primary-btn">ADD TO CARD</a>
+                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        <ul>
+                            <li><b>Availability</b> <span>In Stock</span></li>
+                            <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
+                            <li><b>Weight</b> <span>0.5 kg</span></li>
+                            <li><b>Share on</b>
+                                <div class="share">
+                                    <a href="#"><i class="fa fa-facebook"></i></a>
+                                    <a href="#"><i class="fa fa-twitter"></i></a>
+                                    <a href="#"><i class="fa fa-instagram"></i></a>
+                                    <a href="#"><i class="fa fa-pinterest"></i></a>
                                 </div>
-                                <div class="product__item__text">
-                                    <h6><a href="sanpham.php?id=<?=$row['id']?>"><?=$row['name']?></a></h6>
-                                    <h5><?=$row['price']?></h5>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="product__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                    aria-selected="true">Mô tả</a>
+                            </li>
+                            <!-- <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                                    aria-selected="false">Information</a>
+                            </li> -->
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
+                                    aria-selected="false">Đánh giá <span>(1)</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h6>Mô tả sản phẩm</h6>
+                                    <p><?=$row['description']?></p>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h6>Products Infomation</h6>
+                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
+                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
+                                        Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
+                                        sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
+                                        eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
+                                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
+                                        sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
+                                        diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
+                                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                                        Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
+                                        Proin eget tortor risus.</p>
+                                    <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
+                                        ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
+                                        elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
+                                        porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
+                                        nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h6>Đánh giá sản phẩm</h6>
+                                    <p>Đang hoàn thiện chức năng</p>
                                 </div>
                             </div>
                         </div>
-                        <?php } ?>
-                    </div>
-                    <div class="product__pagination">
-                        <a href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Product Section End -->
+    <!-- Product Details Section End -->
+
+    <!-- Related Product Section Begin -->
+    <section class="related-product">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title related__product__title">
+                        <h2>Các sản phẩm liên quan</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <?php 
+                    $dmid = $row['category_id'];
+                    $sql2 = "SELECT * from products where category_id = $dmid and id <> $idsp";
+                    $result2 = mysqli_query($conn, $sql2);
+                    while($row2 = mysqli_fetch_assoc($result2)){
+                        $arrs = explode(";",$row2['images']);
+                ?>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="<?="quantri/".$arrs[0]?>">
+                        
+                            <ul class="product__item__pic__hover">
+                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6><a href="sanpham.php?id=<?=$row2['id']?>"><?=$row2['name']?></a></h6>
+                            <h5><?=$row2['disscounted_price']?> VND</h5>
+                        </div>
+                    </div>
+                </div>
+                <?php } ?>
+
+            </div>
+        </div>
+    </section>
+    <!-- Related Product Section End -->
 
     <!-- Footer Section Begin -->
     <footer class="footer spad">
@@ -567,7 +483,6 @@
     <script src="js/mixitup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
-
 
 
 </body>

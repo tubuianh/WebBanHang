@@ -59,7 +59,7 @@
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
                 <li class="active"><a href="./index.html">Home</a></li>
-                <li><a href="./shop-grid.html">Shop</a></li>
+                <li><a href="shop.php">Shop</a></li>
                 <li><a href="#">Pages</a>
                     <ul class="header__menu__dropdown">
                         <li><a href="./shop-details.html">Shop Details</a></li>
@@ -187,17 +187,6 @@
                             ?>
                                 <li><a href="#"><?php echo $row['name']; ?></a></li>
                             <?php } ?>
-
-                            <!-- <li><a href="#">Vegetables</a></li>
-                            <li><a href="#">Fruit & Nut Gifts</a></li>
-                            <li><a href="#">Fresh Berries</a></li>
-                            <li><a href="#">Ocean Foods</a></li>
-                            <li><a href="#">Butter & Eggs</a></li>
-                            <li><a href="#">Fastfood</a></li>
-                            <li><a href="#">Fresh Onion</a></li>
-                            <li><a href="#">Papayaya & Crisps</a></li>
-                            <li><a href="#">Oatmeal</a></li>
-                            <li><a href="#">Fresh Bananas</a></li> -->
                         </ul>
                     </div>
                 </div>
@@ -287,7 +276,7 @@
             </div>
             <div class="row featured__filter">
                 <?php 
-                    $sql_str = "SELECT products.name as pname, images, price,categories.slug as cslug FROM products, categories WHERE products.category_id = categories.id";
+                    $sql_str = "SELECT products.id as pid, products.name as pname, images, price,categories.slug as cslug FROM products, categories WHERE products.category_id = categories.id";
                    $result =  mysqli_query($conn,$sql_str);
                    while ($row = mysqli_fetch_assoc($result)){   
                         $anh_arr = explode(";" , $row['images']);                      
@@ -302,7 +291,7 @@
                             </ul>
                         </div>
                         <div class="featured__item__text">
-                            <h6><a href="#"><?php echo $row['pname']; ?></a></h6>
+                            <h6><a href="sanpham.php?id=<?=$row['pid']?>"><?php echo $row['pname']; ?></a></h6>
                             <h5><?php echo $row['price']; ?> VND</h5>
                         </div>
                     </div>
