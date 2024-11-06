@@ -1,3 +1,12 @@
+<?php 
+    session_start();
+    //kiểm tra xem có session users khi đăng nhập không, nếu ko thì chuyển sang trang đăng nhập
+    //ko cho vào trang quản trị bằng link url
+    if(!isset($_SESSION['users'])){
+        header("Location: login.php");
+        die();
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 

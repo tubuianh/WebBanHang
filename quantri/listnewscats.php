@@ -8,14 +8,14 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Danh Sách Thương Hiệu</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Danh Mục Tin Tức</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th>Brand</th>
+                    <th>Name</th>
                     <th>Slug</th>
                     <th>Status</th>  
                     <th>Operation</th>                                                
@@ -23,16 +23,16 @@
             </thead>
                 <tfoot>
                     <tr>
-                        <th>Brand</th>
+                        <th>Name</th>
                         <th>Slug</th>
                         <th>Status</th>
                         <th>Operation</th>                     
                     </tr>                     
                 </tfoot>                   
-            <tbody> 
+            <tbody>
                 <?php 
                     require('../db/conn.php');
-                    $sql_str = "SELECT * FROM brands order by id";
+                    $sql_str = "SELECT * FROM newscategories order by name";
                     $result =  mysqli_query($conn,$sql_str);
                     while ($row = mysqli_fetch_assoc($result)){
                 ?>
@@ -42,8 +42,8 @@
                     <td><?php echo $row['slug']; ?></td>
                     <td><?php echo $row['status']; ?></td>
                     <td>
-                        <a href="editbrands.php?id=<?php echo $row['id']; ?>" class="btn btn-warning">Edit</a>
-                        <a href="deletebrand.php?id=<?php echo $row['id']; ?>" class="btn btn-danger" 
+                        <a href="editnewscategories.php?id=<?php echo $row['id']; ?>" class="btn btn-warning">Edit</a>
+                        <a href="deletenewscategory.php?id=<?php echo $row['id']; ?>" class="btn btn-danger" 
                         onclick="return confirm('Bạn có chắc chắn muốn xóa mục này?');">Delete</a>
                     </td>
                 </tr>  

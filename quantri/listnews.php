@@ -1,4 +1,5 @@
 <?php 
+session_start();
     require('includes/header.php');
     require('includes/myfunction.php');
     //require('includes/sidebar.php');
@@ -18,7 +19,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Sản Phẩm</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Tin Tức</h6>
         <?php 
             if(!empty($smg)){
                 getSmg($smg,$smg_type);
@@ -30,46 +31,44 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th>Tên sản phẩm</th>
+                    <th>STT</th>
+                    <th>Tiêu đề</th>
                     <th>Hình ảnh</th>
                     <th>Danh mục</th>  
-                    <th>Thương hiệu</th>   
-                    <th>Status</th>
-                    <th>Operation</th>                                              
+                    <th>Hành động</th>                                               
                 </tr>
             </thead>
                 <tfoot>
                     <tr>
-                    <th>Tên sản phẩm</th>
+                    <th>STT</th>
+                    <th>Tiêu đề</th>
                     <th>Hình ảnh</th>
                     <th>Danh mục</th>  
-                    <th>Thương hiệu</th>   
-                    <th>Status</th>
-                    <th>Operation</th>                          
+                    <th>Hành động</th>                         
                     </tr>                     
                 </tfoot>                   
             <tbody>
                 <?php 
                     require('../db/conn.php');
-                    $sql_str = "SELECT 
-                    products.id as pid,
-                    products.name as pname, images, categories.name as cname,brands.name as bname, products.status as pstatus
-                    FROM products, categories, brands 
-                    WHERE products.category_id = categories.id and products.brand_id = brands.id order by products.name";
+                    $sql_str = "SELECT *,
+                    news.id as nid
+                    FROM news, newscategories
+                    WHERE news.newscategories_id = newscategories.id order by news.created_at";
                     $result =  mysqli_query($conn,$sql_str);
+                    $stt=0;
                     while ($row = mysqli_fetch_assoc($result)){
+                        $stt++;
                 ?>
        
                 <tr>
-                    <td><?php echo $row['pname']; ?></td>
-                    <td><?php echo anhdaidien($row['images'],"100px"); ?></td>
-                    <td><?php echo $row['cname']; ?></td>
-                    <td><?php echo $row['bname']; ?></td>
-                    <td><?php echo $row['pstatus']; ?></td>
+                    <td><?php echo $stt; ?></td>
+                    <td><?php echo $row['title']; ?></td>
+                    <td><img height="100px" src="<?php echo $row['avatar']; ?>" alt=""></td>
+                    <td><?php echo $row['name']; ?></td>
                     <td>
-                        <a href="editproducts.php?id=<?php echo $row['pid']; ?>" class="btn btn-warning">Edit</a>
-                        <a href="deleteproducts.php?id=<?php echo $row['pid']; ?>" class="btn btn-danger" 
-                        onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Delete</a>
+                        <a href="editnews.php?id=<?php echo $row['nid']; ?>" class="btn btn-warning">Edit</a>
+                        <a href="deletenews.php?id=<?php echo $row['nid']; ?>" class="btn btn-danger" 
+                        onclick="return confirm('Bạn có chắc chắn muốn xóa tin tức này?');">Delete</a>
                     </td>
                 </tr>  
 
